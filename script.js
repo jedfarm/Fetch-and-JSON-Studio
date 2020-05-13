@@ -5,9 +5,13 @@ window.addEventListener("load", function(){
         response.json().then(function(json) { 
             const container = document.getElementById("container");
 
-            container.innerHTML = "";
             let bioDetails = ["Hours in space: ", "Active: ", "Skills: "];
             let bioHeaders =["hoursInSpace", "active", "skills"];
+            
+            json.sort((a, b) => (a.hoursInSpace < b.hoursInSpace) ? 1 : -1);
+            let total = document.getElementById("total");
+            total.innerHTML = `Number of Astronauts: ${json.length}`;
+            
             for (j = 0; j < json.length; j++){
                 let iDiv = document.createElement('div');
                 iDiv.className = 'astronaut';
@@ -23,7 +27,20 @@ window.addEventListener("load", function(){
                 for (k = 0; k < 3; k++){
                     let li=document.createElement('li');
                     ul.appendChild(li);
+                    // let activeSpan = document.createElement('span');
+                    // activeSpan.innerHTML = json[j][bioHeaders[1][1]];
                     li.innerHTML = bioDetails[k] + json[j][bioHeaders[k]];
+                    console.log(li.innerHTML);
+                    if (k==1){
+                        if (json[j][bioHeaders[k]]){
+                            
+                            li.id = "green";
+                        } else {
+                            li.id = "red";
+                        }   
+                    }
+                    
+                    
                 }
                 let img=document.createElement('img');
                 img.className = 'avatar';
